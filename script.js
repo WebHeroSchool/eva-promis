@@ -1,6 +1,7 @@
 const date = new Date();
 const username = window.location.search.split('=')[1];
 const url = `https://api.github.com/users/${username}`;
+let username = '?username=mszulya';
 
 const getDate = new Promise((resolve, reject) => {
 	setTimeout (() => date ? resolve(date) : reject('no date'), 3000 );
