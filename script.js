@@ -1,5 +1,5 @@
 const date = new Date();
-const username = window.location.search.split('=')
+const username = window.location.search.split('=')[1];
 const url = `https://api.github.com/users/${username}`;
 
 const getDate = new Promise((resolve, reject) => {
@@ -11,6 +11,9 @@ const getUrl = new Promise((resolve, reject) => {
 });
 
 const preloader = document.querySelector('.circ');
+setTimeout(() => {
+  preloader.style.display = 'none';
+}, 4999);
 
 Promise.all([getDate, getUrl])
  .then(([date, url]) => fetch(url))
