@@ -8,26 +8,25 @@ let getUsername = () => {
 
 const login = getUsername();
 const userUrl = `https://api.github.com/users/${login}`;
-console.log(userUrl);
 
 const getDate = new Promise((resolve, reject) => {
 	const date = new Date();
 	setTimeout (() => date ? resolve(date) : reject('no date'), 3000 );
 });
-console.log(getDate);
 
-/*const preloader = document.querySelector('.circ');
-setTimeout(() => {
-  preloader.style.display = 'none';
-}, 4999);*/
+const preloader = document.querySelector('.circ');
+const cleanLoader = () => {
+	preloader.style.display = 'none';
+}
 
 const getUserInfo = fetch(userUrl);
-console.log(getUserInfo);
 
 Promise.all([getDate, getUserInfo])
 	.then(([date, userInfo]) => {
-		date();
-		console.log(userInfo);
+		const nowDate = document.createElement('p');
+		nowDate.innerHTML = date;
+		document.body.appendChild(nowDate);
+		document.body.style.color = '#fff';
 		return userInfo.json();
 	})
 	.then(json => {
@@ -43,10 +42,6 @@ Promise.all([getDate, getUserInfo])
 
 		const body = document.body;
 
-		const nowDate = document.createElement('p');
-		nowDate.innerHTML = date;
-		body.appendChild(nowDate);
-
 		const newPhoto = new Image();
 		newPhoto.src = avatar;
 		body.appendChild(newPhoto);
@@ -59,5 +54,7 @@ Promise.all([getDate, getUserInfo])
 		const profileDescription = document.createElement('p');
 		profileDescription.innerHTML = bio;
 		body.appendChild(profileDescription);
+
+		cleanLoader();
 	})
 	.catch(err => console.log("Информация о пользователе не доступна"))
