@@ -1,32 +1,41 @@
 let getUsername = () => {
-	const username = window.location.search.split('username=')[1];
+	let username = window.location.search.split('username=')[1];
 	if (username == undefined){
         username = 'mszulya';
     }
-    return username
+    return username;
 }
 
-const userUrl = `https://api.github.com/users/${username}`;
+const login = getUsername();
+const userUrl = `https://api.github.com/users/${login}`;
 console.log(userUrl);
 
 const getDate = new Promise((resolve, reject) => {
 	const date = new Date();
 	setTimeout (() => date ? resolve(date) : reject('no date'), 3000 );
 });
+console.log(getDate);
 
-const getUserUrl = new Promise((resolve, reject) => {
-	setTimeout (() => userUrl ? resolve(userUrl) : reject('no url'), 5000 );
-});
-
-const preloader = document.querySelector('.circ');
+/*const preloader = document.querySelector('.circ');
 setTimeout(() => {
   preloader.style.display = 'none';
-}, 4999);
+}, 4999);*/
 
-Promise.all([getDate, getUserUrl])
-  .then(([date, url]) => fetch(userUrl))
-	.then(res => res.json())
+const getUserInfo = fetch(userUrl);
+console.log(getUserInfo);
+
+Promise.all([getDate, getUserInfo])
+	.then(([date, userInfo]) => {
+		date();
+		console.log(userInfo);
+		return userInfo.json();
+	})
 	.then(json => {
+		console.log(json.avatar_url);
+		console.log(json.name);
+		console.log(json.bio);
+		console.log(json.url);
+
 		const avatar = json.avatar_url;
 		const name = json.name;
 		const bio = json.bio;
@@ -38,7 +47,6 @@ Promise.all([getDate, getUserUrl])
 		nowDate.innerHTML = date;
 		body.appendChild(nowDate);
 
-		console.log(nowDate);
 		const newPhoto = new Image();
 		newPhoto.src = avatar;
 		body.appendChild(newPhoto);
