@@ -30,21 +30,20 @@ Promise.all([getDate, getUserInfo])
 		return userInfo.json();
 	})
 	.then(json => {
-		console.log(json.avatar_url);
-		console.log(json.name);
-		console.log(json.bio);
-		console.log(json.url);
-
 		const avatar = json.avatar_url;
 		const name = json.name;
 		const bio = json.bio;
-		const link = json.url;
+		const link = json.html_url;
 
 		const body = document.body;
 
 		const newPhoto = new Image();
 		newPhoto.src = avatar;
 		body.appendChild(newPhoto);
+	        
+	        const lineBreak =document.createElement('br');
+		body.appendChild(lineBreak);
+
 
 		const newName = document.createElement('a');
 		newName.innerHTML = name;
