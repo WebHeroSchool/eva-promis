@@ -33,12 +33,12 @@ Promise.all([getDate, getUserInfo])
 		console.log(json.avatar_url);
 		console.log(json.name);
 		console.log(json.bio);
-		console.log(json.url);
+		console.log(json.html_url);
 
 		const avatar = json.avatar_url;
 		const name = json.name;
 		const bio = json.bio;
-		const link = json.url;
+		const link = json.html_url;
 
 		const body = document.body;
 
